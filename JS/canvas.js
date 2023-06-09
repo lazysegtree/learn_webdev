@@ -38,8 +38,9 @@ function draw_canvas2(){
             console.log("Image Loaded src = ", event.target.result);
             //img = document.getElementById("out-image");
             img = new Image();
-            img.src = event.target.result;
             document.getElementById("canvas2-img").src = event.target.result
+            img.src = event.target.result;
+            
 
             img.height = canvas2.height;
             img.width  = canvas2.width ;
