@@ -44,8 +44,9 @@ function draw_canvas2(){
 
             img.height = canvas2.height;
             img.width  = canvas2.width ;
-
-            canvas2_ctx.drawImage(img, 0, 0, img.width, img.height);
+            img.onload = function(){
+                canvas2_ctx.drawImage(img, 0, 0, img.width, img.height);
+            }
         });
         reader.readAsDataURL(file);
     });
