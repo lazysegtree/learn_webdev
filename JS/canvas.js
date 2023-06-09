@@ -1,4 +1,9 @@
 // default size of the canvas is 300 pixels × 150 pixels (width × height)
+function remove_all_event_listeners(id){
+    const obj = document.getElementById(id)
+    const new_obj = obj.cloneNode();
+    obj.parentNode.replaceChild(obj, new_obj);
+}
 
 function draw_canvas1(){
     const canvas = document.getElementById("sample-canvas1");
@@ -64,6 +69,34 @@ function update_canvas2(){
 
 
 }
+
+let point_elem = undefined ;
+
+function canvas_click_listener(event, canvas){
+    const bounding = canvas.getBoundingClientRect();
+    const x = event.clientX - bounding.left;
+    const y = event.clientY - bounding.top;
+    point_elem.innerHTML = "location : (x = " + x + ", y=" + y + ")";
+}
+
+function select_point_A(){
+
+    const canvas2 = document.getElementById("sample-canvas2") ;
+    point_elem = document.getElementById("point-A");
+    canvas2.addEventListener("click", (event)=>{
+        canvas_click_listener(event, canvas2)
+    });
+}
+
+function select_point_B(){
+
+    const canvas2 = document.getElementById("sample-canvas2") ;
+    point_elem = document.getElementById("point-B");
+    canvas2.addEventListener("click", (event)=>{
+        canvas_click_listener(event, canvas2)
+    });
+}
+
 
 function init(){
     draw_canvas1();
