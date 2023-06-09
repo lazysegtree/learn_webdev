@@ -30,19 +30,18 @@ function draw_canvas2(){
         const reader = new FileReader();
         const canvas2 = document.getElementById("sample-canvas2") ;
         const canvas2_ctx = canvas2.getContext("2d");
-        canvas2_ctx.imageSmoothingEnabled = false;
-        canvas2_ctx.imageSmoothingEnabled = false;
+        //canvas2_ctx.imageSmoothingEnabled = false;
         reader.addEventListener('load', (event) => {
             
-            console.log("Image Loaded");
-            img = document.getElementById("out-image");
+            console.log("Image Loaded src = ", event.target.result);
+            //img = document.getElementById("out-image");
+            img = new Image();
             img.src = event.target.result;
 
-            canvas2.height = img.height
-            canvas2.width = img.width
+            img.height = canvas2.height
+            img.width  = canvas2.width
 
             
-            canvas2_ctx.imageSmoothingEnabled = false;
             canvas2_ctx.drawImage(img, 0, 0, img.width, img.height);
         });
         reader.readAsDataURL(file);
