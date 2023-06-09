@@ -11,25 +11,14 @@ function draw_canvas1(){
 
 function draw_canvas2(){
     const canvas2 = document.getElementById("sample-canvas2") ;
-    const canvas2_ctx = canvas2.getContext("2d", {antialias: false});
+    const canvas2_ctx = canvas2.getContext("2d");
     
-    const targw = 600
-    const targh = 400
-
-    canvas2_ctx.webkitImageSmoothingEnabled = false;
-    canvas2_ctx.mozImageSmoothingEnabled = false;
-    canvas2_ctx.imageSmoothingEnabled = false;
 
     const fileSelector = document.getElementById('file-selector');
 
     fileSelector.addEventListener('change', (event) => {
         
-        console.log("fileSelector change event started.")
-
-        const fileList = event.target.files;
-        console.log(fileList);
-        file = fileList[0];
-        
+        file = event.target.files[0];
         // Check if the file is an image.
         if (file.type && !file.type.startsWith('image/')) {
             console.log('File is not an image.', file.type, file);
@@ -49,14 +38,32 @@ function draw_canvas2(){
             img.height = canvas2.height;
             img.width  = canvas2.width ;
 
-            
             canvas2_ctx.drawImage(img, 0, 0, img.width, img.height);
         });
         reader.readAsDataURL(file);
-        console.log("fileSelector change event ended.")
     });
+
+
 }
 
+function update_canvas2(){
+    const canvas2 = document.getElementById("sample-canvas2") ;
+    const canvas2_ctx = canvas2.getContext("2d");
+    img_data = canvas2_ctx.getImageData(0,0,canvas2.width, canvas2.height);
+
+    // update data
+    data = img_data.data 
+    for (let i = 0; i < data.length; i += 4) {
+        data[i] = 255 - data[i]; // red
+        data[i + 1] = 255 - data[i + 1]; // green
+        data[i + 2] = 255 - data[i + 2]; // blue
+    }
+
+
+    canvas2_ctx.putImageData(img_data, 0, 0);
+
+
+}
 
 function init(){
     draw_canvas1();
