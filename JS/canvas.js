@@ -10,7 +10,16 @@ function draw_canvas1(){
 }
 
 function draw_canvas2(){
-      
+    const canvas2 = document.getElementById("sample-canvas2") ;
+    const canvas2_ctx = canvas2.getContext("2d", {antialias: false});
+    
+    const targw = 600
+    const targh = 400
+
+    canvas2_ctx.webkitImageSmoothingEnabled = false;
+    canvas2_ctx.mozImageSmoothingEnabled = false;
+    canvas2_ctx.imageSmoothingEnabled = false;
+
     const fileSelector = document.getElementById('file-selector');
 
     fileSelector.addEventListener('change', (event) => {
@@ -28,8 +37,7 @@ function draw_canvas2(){
         }
     
         const reader = new FileReader();
-        const canvas2 = document.getElementById("sample-canvas2") ;
-        const canvas2_ctx = canvas2.getContext("2d");
+        
         //canvas2_ctx.imageSmoothingEnabled = false;
         reader.addEventListener('load', (event) => {
             
@@ -38,8 +46,8 @@ function draw_canvas2(){
             img = new Image();
             img.src = event.target.result;
 
-            img.height = canvas2.height
-            img.width  = canvas2.width
+            img.height = canvas2.height;
+            img.width  = canvas2.width ;
 
             
             canvas2_ctx.drawImage(img, 0, 0, img.width, img.height);
