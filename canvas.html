@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learn Webdev</title>
+    
+    <link rel="stylesheet" type="text/css" href="./CSS/common.css" />
+    <link rel="stylesheet" type="text/css" href="./CSS/canvas.css" />
+</head>
+<body>
+
+<div >
+    <p> A sample canvas</p>
+    <canvas id="sample-canvas1" width = "150" height="150">
+        Your browser doesn't supports Canvas.
+    </canvas>
+</div>
+
+<div >
+    
+    <p>Using Images on canvas. Give a file as input.Only give jpg, jpeg, png files</p>
+    <input type="file" id="file-selector" accept=".jpg, .jpeg, .png"/>
+    <img id="out-image" height="400" width="600"    />
+
+    <br/>
+    <canvas id="sample-canvas2">
+        Your browser doesn't supports Canvas.
+    </canvas>
+</div>
+
+
+<script src="./JS/canvas.js"></script>
+
+</body>
+</html>
