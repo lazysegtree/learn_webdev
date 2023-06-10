@@ -39,8 +39,9 @@ for( let i=0; i<drums.length; i++){
 
 document.addEventListener("keypress", function (e){
     console.log(e, e.key + " pressed.");
-    if(e.ken in audio_file){
+    if(e.key in audio_file){
         file = audio_files[e.key];
+        console.log(file);
         play_sound(file);
     }
 });
