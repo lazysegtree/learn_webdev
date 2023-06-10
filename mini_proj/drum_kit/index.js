@@ -1,0 +1,43 @@
+function play_sound(audio_file){
+    console.log(audio_file);
+    audio_file.play();
+}
+
+drums = document.getElementsByClassName("drum");
+
+audio_files = {
+    "w" : new Audio("./sounds/crash.mp3"    ),
+    "a" : new Audio("./sounds/kick-bass.mp3"),
+    "s" : new Audio("./sounds/snare.mp3"    ),
+    "d" : new Audio("./sounds/tom-1.mp3"    ),
+    "j" : new Audio("./sounds/tom-2.mp3"    ),
+    "k" : new Audio("./sounds/tom-3.mp3"    ),
+    "l" : new Audio("./sounds/tom-4.mp3"    )
+}
+
+
+
+for( let i=0; i<drums.length; i++){
+    const btn = drums[i];
+    const c = btn.classList[0];
+    mp3_file = undefined
+    switch(c){
+        case "w" : btn.onclick=function() { play_sound(audio_files[c]);}; break;
+        case "a" : btn.onclick=function() { play_sound(audio_files[c]);}; break;
+        case "s" : btn.onclick=function() { play_sound(audio_files[c]);}; break;
+        case "d" : btn.onclick=function() { play_sound(audio_files[c]);}; break;
+        case "j" : btn.onclick=function() { play_sound(audio_files[c]);}; break;
+        case "k" : btn.onclick=function() { play_sound(audio_files[c]);}; break;
+        case "l" : btn.onclick=function() { play_sound(audio_files[c]);}; break;
+    }
+    console.log(btn, c, mp3_file);
+    
+    //btn.onclick=function() { play_sound(mp3_file); }
+}
+
+// works on  firefox
+
+document.addEventListener("keypress", function (e){
+    console.log(e.key);
+    play_sound(audio_files[e.key]);
+});

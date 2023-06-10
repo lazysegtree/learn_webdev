@@ -1,0 +1,3 @@
+in mini_proj/drum_kit , 
+if we use index1.js, the each button plays different mp3 file,
+but if we use index2.js each button plays same mp3 file.
