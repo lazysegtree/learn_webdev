@@ -38,6 +38,9 @@ for( let i=0; i<drums.length; i++){
 // works on  firefox
 
 document.addEventListener("keypress", function (e){
-    console.log(e.key);
-    play_sound(audio_files[e.key]);
+    console.log(e, e.key + " pressed.");
+    if(e.ken in audio_file){
+        file = audio_files[e.key];
+        play_sound(file);
+    }
 });
