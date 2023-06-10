@@ -1,9 +1,3 @@
-function play_sound(audio_file){
-    console.log(audio_file);
-    audio_file.play();
-}
-
-drums = document.getElementsByClassName("drum");
 
 audio_files = {
     "w" : new Audio("./sounds/crash.mp3"    ),
@@ -14,6 +8,21 @@ audio_files = {
     "k" : new Audio("./sounds/tom-3.mp3"    ),
     "l" : new Audio("./sounds/tom-4.mp3"    )
 }
+
+function play_sound(audio_file){
+    for(let i in audio_files){
+        console.log(i, audio_files[i], audio_files[i].paused);
+        audio_files[i].pause();
+        audio_files[i].currentTime = 0;
+        console.log(i, audio_files[i], audio_files[i].paused);
+    }
+    console.log("All paused.");
+    console.log(audio_file);
+    audio_file.play();
+}
+
+drums = document.getElementsByClassName("drum");
+
 
 
 
@@ -39,7 +48,7 @@ for( let i=0; i<drums.length; i++){
 
 document.addEventListener("keypress", function (e){
     console.log(e, e.key + " pressed.");
-    if(e.key in audio_file){
+    if(e.key in audio_files){
         file = audio_files[e.key];
         console.log(file);
         play_sound(file);
