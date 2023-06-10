@@ -14,9 +14,9 @@ h2{
     text-align: center;
 }
 
-#dice-container{
-    display: flex;
-    justify-content: center;
+
+.container{
+    text-align: center;
 }
 
 .dice{
