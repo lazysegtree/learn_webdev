@@ -1,0 +1,3 @@
+Look at the commit before "stacking canvas try 2".
+The canvas.html page is mess.
+I made one div(class = stacked) as position : relative, and the next div comes overlaps with it

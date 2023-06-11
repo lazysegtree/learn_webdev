@@ -5,6 +5,18 @@ function remove_all_event_listeners(id){
     obj.parentNode.replaceChild(obj, new_obj);
 }
 
+function draw_canvas_stacked(){
+    const canvas1 = document.getElementById("c1");
+    const ctx1 = canvas1.getContext("2d");
+    const canvas2 = document.getElementById("c2");
+    const ctx2 = canvas2.getContext("2d");
+    ctx1.fillStyle = "rgb(200, 0, 0)";
+    ctx1.fillRect(10, 10, 50, 50);
+
+    ctx2.fillStyle = "rgba(0, 0, 200, 0.5)";
+    ctx2.fillRect(30, 30, 50, 50);
+}
+
 function draw_canvas1(){
     const canvas = document.getElementById("sample-canvas1");
     const ctx = canvas.getContext("2d");
@@ -104,6 +116,7 @@ function select_point_B(){
 function init(){
     draw_canvas1();
     draw_canvas2();
+    draw_canvas_stacked();
 }
 
 
