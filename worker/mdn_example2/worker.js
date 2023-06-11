@@ -1,4 +1,5 @@
 function worker_main(){
+  console.log("worker_main() run.");
   onmessage = function(e) {
     console.log('Worker: Message received from main script');
     const result = e.data[0] * e.data[1];

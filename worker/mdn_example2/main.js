@@ -11,7 +11,7 @@ if (window.Worker) {
         {type: 'text/javascript'}
       )
     )
-  )
+  );
 
   first.onchange = function() {
     myWorker.postMessage([first.value, second.value]);

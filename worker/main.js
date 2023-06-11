@@ -18,7 +18,21 @@ function add_val_parallel(){
         return;
     }
 
-    const worker = new Worker('./worker.js');
+    const myWorker = new Worker(
+        URL.createObjectURL(new Blob(
+                ["("+worker_main.toString()+")()"], 
+                {type: 'text/javascript'}
+            )
+        )
+    );
+
+    myWorker.postMessage([val, Number(x_elem.innerHTML)]);
+
+    myWorker.onmessage = function(event){
+        console.log('Message received from worker : ', event.data);
+        x_elem.innerHTML = event.data;
+    };
+
 }
 
 const delay = 0;
