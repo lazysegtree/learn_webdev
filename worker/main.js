@@ -9,4 +9,14 @@ function add_val(){
     }
 }
 
+function add_val_parallel(){
+    const val = document.getElementById("val2").value ; 
+    if(!window.Worker){
+        alert("Your browser is popoo. Doesn't supports workers.")
+        return;
+    }
+
+    const worker = Worker('./worker.js');
+}
+
 add_val();
