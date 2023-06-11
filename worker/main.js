@@ -1,5 +1,7 @@
 x_elem = document.getElementById("x-val");
 document.getElementById("val").value = 100000;
+document.getElementById("val2").value = 100000;
+document.getElementById("val3").value = 100000;
 
 function add_val(){
     const inp_val = document.getElementById("val").value ; 
@@ -16,7 +18,24 @@ function add_val_parallel(){
         return;
     }
 
-    const worker = Worker('./worker.js');
+    const worker = new Worker('./worker.js');
+}
+
+const delay = 0;
+const unit = 1000;
+let add_1_val = 0;
+function add_1(){
+    if(add_1_val === 0) return;
+    for(let i=0; i<unit; i++){
+        x_elem.innerHTML = Number(x_elem.innerHTML)+1;
+        add_1_val--;
+    }
+    setTimeout(add_1, 0);
+}
+
+function add_val_fake_parallel(){
+    add_1_val = document.getElementById("val3").value ;
+    add_1();
 }
 
 add_val();
