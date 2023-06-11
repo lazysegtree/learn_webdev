@@ -29,7 +29,7 @@ function add_val_parallel(){
     myWorker.postMessage([val, Number(x_elem.innerHTML)]);
 
     myWorker.onmessage = function(event){
-        console.log('Message received from worker : ', event.data);
+        //console.log('Message received from worker : ', event.data);
         x_elem.innerHTML = event.data;
     };
 
