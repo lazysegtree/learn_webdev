@@ -1,9 +1,16 @@
 # Python 3 server example
+# https://pythonbasics.org/webserver/
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 
+import sys 
+
+if len(sys.argv) == 1 :
+    print("Need to specify a port")
+    sys.exit(1)
+
+serverPort = int(sys.argv[1])
 hostName = "localhost"
-serverPort = 8081
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
