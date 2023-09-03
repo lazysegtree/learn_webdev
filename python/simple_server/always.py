@@ -6,26 +6,33 @@ import sys
 
 if len(sys.argv) != 5 :
     print("Need to specify a port and error. Need exactly 5 arguements.")
-    print("Sample command : `always.py -p 4000 -e 502` or `always.py -e 444 -p 3001`")
+    print("Sample command : `always.py -p 4000 -s 502` or `always.py -s 444 -p 3001`")
     sys.exit(1)
 
 serverPort = -1
-error = -1
+status = -1
 
 idx = 1
 while idx<5 :
     if sys.argv[idx] == "-p":
         serverPort = int(sys.argv[idx+1])
         idx += 2
-    else :
-        error = int(sys.argv[idx+1])
+    elif sys.argv[idx] == "-s" :
+        status = int(sys.argv[idx+1])
         idx += 2
-int(sys.argv[1])
+    else:
+        print("invalid args")
+        sys.exit(3)
+
+if (serverPort == -1 or status == -1) :
+    print("Invalid args.")
+    sys.exit(2);
+
 hostName = "localhost"
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
-        self.send_error(429)
+        self.send_error(status)
 
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
