@@ -21,7 +21,7 @@ while idx<len(sys.argv) :
         status = int(sys.argv[idx+1])
         idx += 2
     elif sys.argv[idx] == "-d":
-        delay = int(sys.argv[idx+1])
+        delay = float(sys.argv[idx+1])
         idx += 2
     else:
         print("invalid args")
@@ -29,7 +29,7 @@ while idx<len(sys.argv) :
 
 if (serverPort == -1 or status == -1) :
     print("Invalid args.")
-    sys.exit(2);
+    sys.exit(2)
 
 hostName = "localhost"
 

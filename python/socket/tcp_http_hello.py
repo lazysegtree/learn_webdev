@@ -42,9 +42,10 @@ while True:
     data = client_socket.recv(10)
     print(f"Data recieved : {data}")
 
+    
     time.sleep(delay)
-
+    res1 = "HTTP/1.0 200 OK\r\nServer: BaseHTTP/0.6 Python/3.8.10\r\nDate: Fri, 08 Sep 2023 08:16:24 GMT\r\nContent-type: text/html\r\n\r\nWebserver says Hello " + str(server_num) 
     res = "Hello from " + str(server_num)
-    client_socket.send(res.encode())
+    client_socket.send(res1.encode())
 
-    client_socket.close()
+    #client_socket.close()

@@ -17,11 +17,13 @@ server_socket.listen(5)
 
 print(f"{server_ip}, {server_port}")
 
+
+
 while True:
     client_socket, client_address = server_socket.accept()
     print(f"Accepted from {client_socket},{client_address}")
     data = client_socket.recv(10)
 
     print(f"data reciever : {data}")
-
+    client_socket.sendall("Hello")
     client_socket.close()
