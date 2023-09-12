@@ -33,8 +33,13 @@ if (serverPort == -1 or status == -1) :
 
 hostName = "localhost"
 
+reqcount = 0
+
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
+        global reqcount
+        reqcount += 1
+        print(f"Server at {serverPort} with status = {status} got req no. {reqcount}")
         time.sleep(delay)
         if status != 200 :
             self.send_error(status)
@@ -42,7 +47,7 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/html")
             self.end_headers()
-            self.wfile.write(bytes("Webserver says Hello.", "utf-8"))
+            self.wfile.write(bytes(f"Webserver at {serverPort} says Hello.", "utf-8"))
 
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
