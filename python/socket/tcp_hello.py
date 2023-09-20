@@ -4,7 +4,7 @@ import random
 import time
 
 if len(sys.argv) != 5 :
-    print("Need to specify a port and delay. Example `python3 server.py -p 8080 -d 1`")
+    print("Need to specify a port and delay. Example `python3 server.py -p 8080 -d 0`")
     sys.exit(1)
 
 server_port = -1
