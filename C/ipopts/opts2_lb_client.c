@@ -3,9 +3,9 @@
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#define PORT 80
 
 typedef struct ipopts_ {
     unsigned char type;
@@ -50,9 +50,21 @@ ipopts* get_ip_options(char* buffer, int buffer_size){
 
 int main(int argc, char const *argv[])
 {
+
+    if(argc != 4){
+        printf("Wrong args\n"
+            "Usage : program [HOSTNAME] [HOSTPORT] [IP_OPTS_SEND]"
+            "IP_OPTS_SEND should be 0 or 1"
+            "Example : \'./op2 127.0.0.1 80 0\'"
+        );
+    }
+    const char* hostname = argv[1];
+    int server_port = atoi(argv[2]);
+    int ip_opts_send = atoi(argv[3]);
+
     char http_hdr[256];
     int sockfd = 0, valread, client_fd;
-    struct sockaddr_in serv_addr;
+    
     char buffer[1024] = {0};
 
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
@@ -61,25 +73,29 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
+
+    struct sockaddr_in serv_addr;
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(PORT);
+    serv_addr.sin_port = htons(server_port);
     // Convert IPv4 and IPv6 addresses from text to binary
     // form
-    if (inet_pton(AF_INET, "192.18.201.201", &serv_addr.sin_addr) <= 0)
+    if (inet_pton(AF_INET, hostname, &serv_addr.sin_addr) <= 0)
     {
         printf(
           "\nInvalid address/ Address not supported \n");
         return -1;
     }
 
-    ipopts* opts = get_ip_options(buffer, 1024);
-    setsockopt(sockfd, IPPROTO_IP, IP_OPTIONS, buffer, opts->length);
-
-    char *p = (char *)opts;
-    printf("opts with len=%d\n", opts->length);
-    int i=0;
-    for (i=0; i<opts->length; i++) printf("%02X ", (unsigned char)p[i]);
-    printf("\n");
+    if(ip_opts_send){
+        ipopts* opts = get_ip_options(buffer, 1024);
+        setsockopt(sockfd, IPPROTO_IP, IP_OPTIONS, buffer, opts->length);
+    
+        char *p = (char *)opts;
+        printf("opts with len=%d\n", opts->length);
+        int i=0;
+        for (i=0; i<opts->length; i++) printf("%02X ", (unsigned char)p[i]);
+        printf("\n");
+    }
 
     if ((client_fd = connect(sockfd, (struct sockaddr *)&serv_addr,
                  sizeof(serv_addr))) < 0)
