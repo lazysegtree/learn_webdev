@@ -23,7 +23,7 @@ def handle_arguments(name, description, usage, isclient):
 
 
     argparser.add_argument('-6', dest='v6', action='store_true',
-                           help='use IPv6')
+                           help='use IPv6', default=True)
     
     argparser.add_argument('--ip-opts',dest="ip_opts", help='send ip options as well', action='store_true',
                           default=False)
@@ -92,7 +92,7 @@ def handle_arguments(name, description, usage, isclient):
     else:
         if params.getsockopt:
             args['getsockopt'] = True
-    print(f"args are {args}")
+    # print(f"args are {args}")
     return args
 
 def next_proto(sock):
@@ -144,7 +144,10 @@ def set_sock_options(sock, args):
          sock.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_RECVDSTOPTS, 1)
          mip6 = struct.pack('BBBBBBBB', 6, 2, 1, 2, 0, 0, 30, 16) + \
                 socket.inet_pton(socket.AF_INET6, args['sgw'])
+         print(f"IPv6 Will set opt to {mip6}")
          sock.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_DSTOPTS, mip6)
+    print("Done setting IP options")
+         
 
 def do_recvmsg(sock, size):
     data, ancillary, flags, peer = sock.recvmsg(size, size)
@@ -154,7 +157,9 @@ def do_recvmsg(sock, size):
 
 def do_sendmsg(sock, msg, peer, sgw):
     local = sock.getsockname()
+
     srcaddr = socket.inet_pton(sock.family, local[0])
+    #print(f"srcaddr : {srcaddr}")
     try:
         sock.sendmsg([bytes(msg, 'ascii')], [], 0, peer)
     except OSError as e:
@@ -191,38 +196,16 @@ def main():
     sock.bind(bind_address)
 
     sock.connect(server_address)
-
-    if args['quiet_mode']:
-        prompt = ''
+            
+    peer = sock.getpeername()
+    msg = "GET / HTTP/1.1\r\nHost: [" + server_address[0] + "]\r\n\r\n"
+    print(f"Sending request \n------------\n{msg}\n----------")
+    do_sendmsg(sock, msg, peer, args['sgw'])
+    msg =  do_recvmsg(sock, 1024)
+    if msg:
+        print(f"server_addr : {server_address[0]}, peer : {peer[0]}\n response : \n------------\n{msg}\n----------")
     else:
-        prompt = 'Enter text for sending: '
-
-    try:
-        while True:
-            try:
-                msg = input(prompt)
-            except EOFError:
-                break;
-            if len(msg) == 0:
-                break;
-            if args['quiet_mode'] == False:
-                print('=> %s : %s ' % (server_address[0], msg))
-            peer = sock.getpeername()
-            do_sendmsg(sock, msg, peer, args['sgw'])
-            msg =  do_recvmsg(sock, 1024)
-            if msg:
-                 if args['quiet_mode']:
-                     print(msg)
-                 else:
-                     print('%s <= %s : %s'  %
-                         (server_address[0], peer[0], msg))
-            else:
-                 if args['quiet_mode'] == False:
-                     print(peer , ' : connection closed')
-                 break;
-    finally:
-        sock.close()
-
-    pass 
+         if args['quiet_mode'] == False:
+             print(peer , ' : connection closed')
 
 main()

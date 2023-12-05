@@ -30,7 +30,14 @@ int main() {
         close(ipv6_socket);
         exit(EXIT_FAILURE);
     }
+    const char* buffer = "adsfasdf";
 
+    int ret = setsockopt(ipv6_socket, IPPROTO_IPV6, IPV6_2292DSTOPTS, buffer, 32);
+    if(ret){
+        perror("Setting dest opts failed");
+        close(ipv6_socket);
+        exit(EXIT_FAILURE);
+    }
 
     // Connect to the server
     if (connect(ipv6_socket, (struct sockaddr*)&dest_addr, sizeof(dest_addr)) == -1) {
