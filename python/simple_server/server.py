@@ -16,7 +16,7 @@ args = parser.parse_args()
 serverPort = args.port
 status = args.status
 delay = args.delay_msec / 1000
-hostName = "localhost"
+hostName = "0.0.0.0"
 reqcount = 0
 
 class MyServer(BaseHTTPRequestHandler):
@@ -29,9 +29,9 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_header("Content-type", "text/html")
         self.end_headers()
         if status == 200 : 
-            self.wfile.write(bytes(f"Webserver at {serverPort} says Hello for req no. {reqcount}", "utf-8"))
+            self.wfile.write(bytes(f"Webserver at {serverPort} says Hello for req no. {reqcount}\n", "utf-8"))
         else :
-            self.wfile.write(bytes(f"Error {status} from server at {serverPort} for req no. {reqcount}", "utf-8"))
+            self.wfile.write(bytes(f"Error {status} from server at {serverPort} for req no. {reqcount}\n", "utf-8"))
         
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
