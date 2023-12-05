@@ -49,22 +49,6 @@ ipopts* get_ip_options(char* buffer, int buffer_size){
 int main(int argc, char const *argv[])
 {
 
-    if(argc != 4){
-        printf("Wrong args\n"
-            "Usage : program [HOSTNAME] [HOSTPORT] [IP_OPTS_SEND]\n"
-            "IP_OPTS_SEND should be 0 or 1 \n"
-            "Example : \'./op2 127.0.0.1 80 0\' \n"
-        );
-        return 0;
-    }
-
-    const char* hostname = argv[1];
-    int server_port = atoi(argv[2]);
-    int ip_opts_send = atoi(argv[3]);
-
-    printf("Starting program with args Server hostname : %s, port : %d, To send ip options : %d\n",
-    hostname, server_port, ip_opts_send);
-
     char http_hdr[256];
     int sockfd = 0, valread, client_fd;
     
@@ -82,10 +66,10 @@ int main(int argc, char const *argv[])
 
     struct sockaddr_in serv_addr;
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(server_port);
+    serv_addr.sin_port = htons(80);
     // Convert IPv4 and IPv6 addresses from text to binary
     // form
-    if (inet_pton(AF_INET, hostname, &serv_addr.sin_addr) <= 0)
+    if (inet_pton(AF_INET, "192.18.201.201", &serv_addr.sin_addr) <= 0)
     {
         printf(
           "\nInvalid address/ Address not supported \n");
@@ -95,16 +79,14 @@ int main(int argc, char const *argv[])
 
     printf("[INFO] Created server address structure.\n");
 
-    if(ip_opts_send){
-        ipopts* opts = get_ip_options(buffer, 1024);
-        setsockopt(sockfd, IPPROTO_IP, IP_OPTIONS, buffer, opts->length);
-
-        char *p = (char *)opts;
-        printf("opts with len=%d\n", opts->length);
-        int i=0;
-        for (i=0; i<opts->length; i++) printf("%02X ", (unsigned char)p[i]);
-        printf("\n");
-    }
+    ipopts* opts = get_ip_options(buffer, 1024);
+    setsockopt(sockfd, IPPROTO_IP, IP_OPTIONS, buffer, opts->length);
+    char *p = (char *)opts;
+    printf("opts with len=%d\n", opts->length);
+    int i=0;
+    for (i=0; i<opts->length; i++) printf("%02X ", (unsigned char)p[i]);
+    printf("\n");
+    
 
     printf("[INFO] Initiated connection of client socket with server socket\n");
 
