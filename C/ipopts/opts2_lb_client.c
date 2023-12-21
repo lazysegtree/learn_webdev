@@ -25,6 +25,8 @@ ipopts* get_ip_options(char* buffer, int buffer_size){
     opts->length = 31;
     opts->pointer = 32;
 
+    // 07 1F 20 CA FE FA CE DE AD BE EF 01 02 03 04 01 F2 F3 F4 00 00 00 00 00 00 00 00 00 00 00 00
+
     uint64_t md = 0xcafefacedeadbeef; //14627404406152085231
     //uint64_t md = vcn_id;
     printf("metadata=%llu\n", md);
