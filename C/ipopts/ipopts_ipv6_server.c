@@ -129,7 +129,7 @@ int echo_server(int portno)
         if (clientfd < 0)
             error("Server ERROR accept failed");
 
-        inet_ntop(AF_INET6, (void*) (&cli_addr), client_addr_str, INET6_ADDRSTRLEN);
+        inet_ntop(AF_INET6, (void*) (&cli_addr.sin6_addr), client_addr_str, INET6_ADDRSTRLEN);
         printf("[echo_server] Got one connection, from client \'%s\'\n", client_addr_str);
 
 
